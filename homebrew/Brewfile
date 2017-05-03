@@ -1,0 +1,35 @@
+cask_args appdir: '/Applications'
+
+tap 'homebrew/services'
+tap 'caskroom/cask'
+tap 'caskroom/versions'
+tap 'caskroom/fonts'
+
+## CLI
+brew 'git'
+brew 'git-crypt'
+brew 'htop'
+brew 'node'
+brew 'rbenv'
+brew 'ruby-build'
+brew 'tmux'
+brew 'vim'
+brew 'yarn'
+
+## Applications
+cask 'alfred'
+cask 'docker'
+cask 'firefox'
+cask 'google-chrome'
+cask 'iterm2-beta'
+cask 'postico'
+cask 'sequel-pro-nightly'
+cask 'skype'
+cask 'slack'
+cask 'spotify'
+cask 'teamviewer'
+cask 'visual-studio-code'
+
+## Fonts
+cask 'font-menlo-for-powerline'
+cask 'font-monoid-nerd-font'
