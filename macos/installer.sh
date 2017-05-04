@@ -1,5 +1,5 @@
 # Install any available updates from the Mac AppStore
-echo "==> Installing updates from Mac AppStore..."
+echo "==> Checking for updates from the Mac AppStore..."
 sudo softwareupdate -i -a
 
 # Set any system preferences

@@ -7,12 +7,12 @@ set -e
 
 echo ''
 echo '======================================================'
-echo '             ✨  Dotfile Installer ✨'
+echo '             ✨  Dotfiles Installer ✨'
 echo '======================================================'
 echo ''
 
 # find any included installers and run them iteratively
-find $DOTFILES_ROOT -name installer.sh | while read installer ; do sh -c "${installer}" ; done
+find $DOTFILES_ROOT -name installer.sh -exec {} \;
 
 link_file () {
   local src=$1 dst=$2
@@ -32,7 +32,7 @@ link_file () {
       then
         skip=true;
       else
-        echo " - File already exists: $dst ($(basename "$src")), what do you want to do?\n\
+        echo "> File already exists: $dst ($(basename "$src")), what do you want to do?\n\
         [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
         read -n 1 action
 
@@ -62,30 +62,30 @@ link_file () {
     if [ "$overwrite" == "true" ]
     then
       rm -rf "$dst"
-      echo "==> removed $dst"
+      echo "Removed $dst"
     fi
 
     if [ "$backup" == "true" ]
     then
       mv "$dst" "${dst}.backup"
-      echo "==> moved $dst to ${dst}.backup"
+      echo "Moved $dst to ${dst}.backup"
     fi
 
     if [ "$skip" == "true" ]
     then
-      echo "==> skipped $src"
+      echo "Skipped $src"
     fi
   fi
 
   if [ "$skip" != "true" ]
   then
     ln -s "$1" "$2"
-    echo "==> linked $1 to $2"
+    echo "Linked $1 to $2"
   fi
 }
 
-install_dotfiles () {
-  echo '==> Installing dotfiles...'
+setup_symlinks () {
+  echo '==> Setting Dotfile Symlinks...'
 
   local overwrite_all=false backup_all=false skip_all=false
 
@@ -96,7 +96,7 @@ install_dotfiles () {
   done
 }
 
-install_dotfiles
+setup_symlinks
 
 echo 'Installation complete!'
 echo ''
