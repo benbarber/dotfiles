@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # Setup some MacOS preferences
 
 # Disable press-and-hold for keys in favor of key repeat.

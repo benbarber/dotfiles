@@ -1,8 +1,4 @@
-#!/usr/bin/env bash
 # Install Homebrew and Brewfile packages
-
-BREWFILE_PATH = "$DOTFILES_ROOT/homebrew/Brewfile"
-
 if test ! $(which brew)
 then
   echo "==> Installing Homebrew..."
@@ -16,11 +12,11 @@ then
   fi
 
   echo "==> Installing Brewfile Packages..."
-  brew bundle $BREWFILE_PATH
+  brew bundle --file="$DOTFILES_ROOT/homebrew/Brewfile"
 else
   echo "==> Updating Homebrew..."
   brew update
 
   echo "==> Updating Brewfile Packages..."
-  brew bundle $BREWFILE_PATH
+  brew bundle --file="$DOTFILES_ROOT/homebrew/Brewfile"
 fi

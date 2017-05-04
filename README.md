@@ -6,7 +6,7 @@ Keeping all these files in a git repository enables me to keep all my settings b
 
 Great for when I need to setup a new machine or re-format an exsiting one.
 
-### Installation
+## Installation
 
 Clone this repository
 
@@ -19,6 +19,10 @@ and run the installer
 ```
 $ ~/.dotfiles/install
 ```
+
+## Credits
+
+This project borrows some ideas and code from [Zach Holmans](https://github.com/holman) awesome [dotfiles](https://github.com/holman/dotfiles) so please check that out for futher inspiration.
 
 
 
