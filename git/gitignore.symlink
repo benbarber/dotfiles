@@ -1,3 +1,9 @@
-.DS_Store
+# System files
 *~
 *.swp
+.DS_Store
+
+# Text editor and IDE files
+.vscode
+.idea
+
