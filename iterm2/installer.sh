@@ -1,7 +1,10 @@
 source "$DOTFILES_ROOT/dotfiles.sh"
 
-dst="$HOME/Library/Preferences/com.googlecode.iterm2.plist"
+# Set iTerm2 to use our preferences stored in ./com.googlecode.iterm2.plist
+echo '==> Setting iTerm2 preferences'
 
-# Symlink iTerm2 config back to our config file
-echo '==> Symlinking iTerm2 preferences'
-set_symlink "$DOTFILES_ROOT/iterm2/com.googlecode.iterm2.plist" "$dst"
+# Set iTerm2 to load the preferences from a custom folder
+defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+
+# Set the location of the perferences folder to the dotfiles iterm2 directory
+defaults write com.googlecode.iterm2 PrefsCustomFolder "$DOTFILES_ROOT/iterm2"
