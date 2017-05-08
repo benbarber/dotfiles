@@ -28,5 +28,6 @@ I currently use this across multiple machines and it works great for me without 
 
 If you have any updates or bug fixes please submit them in a pull request and I will get them merged in where appropriate.
 
-## Thanks
+## Acknowledgments
+
  This project builds upon some ideas from [Zach Holmans](https://github.com/holman/dotfiles) and [Ryan Bates](http://github.com/ryanb/dotfiles) dotfile configurations so please check them out for further inspiration.

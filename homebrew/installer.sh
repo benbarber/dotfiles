@@ -1,3 +1,5 @@
+source "$DOTFILES_ROOT/dotfiles.sh"
+
 # Install Homebrew and Brewfile packages
 if test ! $(which brew)
 then

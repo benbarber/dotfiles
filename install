@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
-# Dotfile installer
+# install
+#
+# Dotfiles Installer
+# This script will run any custom installer.sh files that are present.
+# It will then symlink any .symlink files into your user root.
 
 export DOTFILES_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+source "$DOTFILES_ROOT/dotfiles.sh"
 
 set -e
 
@@ -11,79 +17,10 @@ echo '             ✨  Dotfiles Installer ✨'
 echo '======================================================'
 echo ''
 
-# find any included installers and run them iteratively
+# Find any included installers and run them iteratively
 find $DOTFILES_ROOT -name installer.sh -exec {} \;
 
-link_file () {
-  local src=$1 dst=$2
-
-  local overwrite= backup= skip=
-  local action=
-
-  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
-  then
-
-    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
-    then
-
-      local currentSrc="$(readlink $dst)"
-
-      if [ "$currentSrc" == "$src" ]
-      then
-        skip=true;
-      else
-        echo "> File already exists: $dst ($(basename "$src")), what do you want to do?\n\
-        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action
-
-        case "$action" in
-          o )
-            overwrite=true;;
-          O )
-            overwrite_all=true;;
-          b )
-            backup=true;;
-          B )
-            backup_all=true;;
-          s )
-            skip=true;;
-          S )
-            skip_all=true;;
-          * )
-            ;;
-        esac
-      fi
-    fi
-
-    overwrite=${overwrite:-$overwrite_all}
-    backup=${backup:-$backup_all}
-    skip=${skip:-$skip_all}
-
-    if [ "$overwrite" == "true" ]
-    then
-      rm -rf "$dst"
-      echo "Removed $dst"
-    fi
-
-    if [ "$backup" == "true" ]
-    then
-      mv "$dst" "${dst}.backup"
-      echo "Moved $dst to ${dst}.backup"
-    fi
-
-    if [ "$skip" == "true" ]
-    then
-      echo "Skipped $src"
-    fi
-  fi
-
-  if [ "$skip" != "true" ]
-  then
-    ln -s "$1" "$2"
-    echo "Linked $1 to $2"
-  fi
-}
-
+# Setup symlinks for all dotfiles with a .symlink extention
 setup_symlinks () {
   echo '==> Setting Dotfile Symlinks...'
 
@@ -92,10 +29,9 @@ setup_symlinks () {
   for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
   do
     dst="$HOME/.$(basename "${src%.*}")"
-    link_file "$src" "$dst"
+    set_symlink "$src" "$dst"
   done
 }
-
 setup_symlinks
 
 echo 'Installation complete!'

@@ -1,3 +1,4 @@
+source "$DOTFILES_ROOT/dotfiles.sh"
 # Setup some MacOS preferences
 
 # Disable press-and-hold for keys in favor of key repeat.

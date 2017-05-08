@@ -1,3 +1,5 @@
+source "$DOTFILES_ROOT/dotfiles.sh"
+
 # Setup global gitconfig
 if ! [ -f "$DOTFILES_ROOT/git/gitconfig.local.symlink" ]
 then
