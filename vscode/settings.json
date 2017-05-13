@@ -1,0 +1,13 @@
+// Place your settings in this file to overwrite the default settings
+{
+    // Controls the font size in pixels.
+    "editor.fontSize": 15,
+
+    // The number of spaces a tab is equal to. This setting is overriden based on the file contents when `editor.detectIndentation` is on.
+    "editor.tabSize": 2,
+
+    // Controls the visibility of the status bar at the bottom of the workbench.
+    "workbench.statusBar.visible": true,
+    "files.autoSave": "afterDelay",
+    "workbench.iconTheme": "vs-seti"
+  }
