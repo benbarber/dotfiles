@@ -33,4 +33,3 @@ cask 'visual-studio-code'
 
 ## Fonts
 cask 'font-menlo-for-powerline'
-cask 'font-monoid-nerd-font'
