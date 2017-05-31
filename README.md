@@ -1,4 +1,4 @@
-# Ben Barber's Dot Files
+# ~BenBarber's Dot Files
 
 These are my config files for setting up a MacOS/Linux system for the way I like to work. 
 
