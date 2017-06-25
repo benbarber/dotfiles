@@ -6,6 +6,8 @@ tap 'caskroom/versions'
 tap 'caskroom/fonts'
 
 ## CLI
+brew 'awscli'
+brew 'aws-elasticbeanstalk'
 brew 'git'
 brew 'git-crypt'
 brew 'htop'
