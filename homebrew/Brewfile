@@ -5,32 +5,35 @@ tap 'caskroom/cask'
 tap 'caskroom/versions'
 tap 'caskroom/fonts'
 
-## CLI
-brew 'awscli'
-brew 'aws-elasticbeanstalk'
+# Programming
+brew 'crystal'
+brew 'elixir'
+brew 'node'
+brew 'python'
+brew 'ruby'
+
+# CLI
 brew 'git'
 brew 'git-crypt'
 brew 'htop'
-brew 'node'
-brew 'rbenv'
-brew 'ruby-build'
 brew 'tmux'
 brew 'vim'
 brew 'yarn'
 
-## Applications
-cask 'alfred'
+# Devops
+brew 'awscli'
+brew 'doctl'
+brew 'kubectl'
+
+# Applications
 cask 'docker'
 cask 'firefox'
 cask 'google-chrome'
-cask 'iterm2-beta'
+cask 'iterm2'
 cask 'postman'
 cask 'postico'
-cask 'sequel-pro-nightly'
-cask 'skype'
+cask 'sequel-pro'
 cask 'slack'
-cask 'spotify'
-cask 'teamviewer'
 cask 'visual-studio-code'
 
 ## Fonts

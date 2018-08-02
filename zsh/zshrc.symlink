@@ -8,6 +8,9 @@ ZSH_THEME="agnoster"
 # Projects folder that we can `c [tab]` to
 export PROJECTS=~/Projects
 
+# Syntax highlighting
+export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/usr/local/share/zsh-syntax-highlighting/highlighters
+
 # Stash your environment variables in ~/.env This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
 # you'll have access to them in your scripts.
@@ -53,6 +56,9 @@ COMPLETION_WAITING_DOTS="true"
 # VCS as dirty. This makes repository status check for large repositories much,
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Stop Python from writing bytecode (.pyc) files
+PYTHONDONTWRITEBYTECODE="true"
 
 # Plugins
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
