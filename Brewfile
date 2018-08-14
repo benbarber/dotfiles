@@ -1,11 +1,8 @@
 cask_args appdir: '/Applications'
 
-tap 'homebrew/services'
 tap 'caskroom/cask'
-tap 'caskroom/versions'
-tap 'caskroom/fonts'
 
-# Programming
+# Languages
 brew 'crystal'
 brew 'elixir'
 brew 'node'
@@ -27,14 +24,9 @@ brew 'kubectl'
 
 # Applications
 cask 'docker'
-cask 'firefox'
-cask 'google-chrome'
 cask 'iterm2'
 cask 'postman'
 cask 'postico'
 cask 'sequel-pro'
 cask 'slack'
 cask 'visual-studio-code'
-
-## Fonts
-cask 'font-menlo-for-powerline'

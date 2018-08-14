@@ -1,0 +1,44 @@
+#!/bin/bash
+
+system_type=$(uname -s)
+
+# Install MacOS requirements
+if [ "$system_type" = "Darwin" ]; then
+ 
+  # Install Homebrew if it's missing
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "Installing Homebrew..."
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+
+  # Install YADM if it's missing
+  if ! command -v yadm >/dev/null 2>&1; then
+    echo "Installing YADM..."
+    brew install git yadm
+  fi
+fi
+
+# Install dotfiles
+echo "Installing dotfiles..."
+yadm clone git@github.com:BenBarber/dotfiles.git
+yadm submodule update --init --recursive
+
+# Install MacOs specifics
+if [ "$system_type" = "Darwin" ]; then
+  # Install Homebrew formulas from .Brewfile
+  if [ -f "$HOME/.Brewfile" ]; then
+    echo "Installing Homebrew formulas..."
+    brew bundle --global
+  fi
+
+  # Install Powerline Fonts
+  echo "Installing Powerline Fonts..."
+  git clone https://github.com/powerline/fonts.git --depth=1
+  cd fonts && ./install.sh && cd .. && rm -rf fonts
+
+  # Set iTerm2 preferences
+  if [ -d "$HOME/.iterm2" ]; then
+    echo "Setting iTerm preferences..."
+    defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
+  fi
+fi
