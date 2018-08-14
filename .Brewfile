@@ -1,7 +1,5 @@
 cask_args appdir: '/Applications'
 
-tap 'caskroom/cask'
-
 # Languages
 brew 'crystal'
 brew 'elixir'
