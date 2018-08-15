@@ -69,6 +69,13 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Stash your environment variables in ~/.env This means they'll stay out
+# of your main dotfiles repository (which may be public, like this one), but
+# you'll have access to them in your scripts.
+if [[ -a ~/.env ]]; then
+  source ~/.env
+fi
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
