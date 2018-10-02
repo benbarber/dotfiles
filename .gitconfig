@@ -1,0 +1,5 @@
+[user]
+	email = contact@benbarber.co.uk
+	name = Ben Barber
+[core]
+	excludesfile = ~/.gitignore_global
