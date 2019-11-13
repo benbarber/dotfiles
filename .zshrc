@@ -7,7 +7,8 @@ export ZSH="/Users/bbarber/.oh-my-zsh"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="agnoster"
+# ZSH_THEME="agnoster"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -64,6 +65,10 @@ ZSH_THEME="agnoster"
 plugins=(
   git
 )
+
+# Settings for ZSH auto completions
+# Run "brew info zsh-completions" for more details
+fpath=(/usr/local/share/zsh-completions $fpath)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -122,3 +127,9 @@ fi
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 
+
+# heroku autocomplete setup
+HEROKU_AC_ZSH_SETUP_PATH=/Users/bbarber/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
