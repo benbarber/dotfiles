@@ -1,0 +1,26 @@
+cask_args appdir: '/Applications'
+
+# Languages
+brew 'elixir'
+brew 'node'
+brew 'python@3.11'
+brew 'ruby'
+
+# CLI
+brew 'awscli'
+brew 'flyctl'
+brew 'htop'
+brew 'spaceman-diff'
+brew 'tmux'
+brew 'vim'
+
+# Dev tools
+cask 'docker'
+cask 'httpie'
+cask 'iterm2'
+cask 'keepingyouawake'
+cask 'raycast'
+cask 'spotify'
+cask 'tableplus'
+cask 'visual-studio-code'
+cask 'whatsapp'

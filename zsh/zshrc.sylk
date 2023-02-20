@@ -1,0 +1,61 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
+
+# Configure XDG Base Directories
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+
+# Add dotfiles /bin directory directly to the path
+export PATH="./bin:/usr/local/bin:/usr/local/sbin:$XDG_CONFIG_HOME/bin:$PATH"
+
+# your project folder that we can `c [tab]` to
+export PROJECTS=~/Projects
+
+# Stash your environment variables in ~/.env.local This means they'll stay out
+# of your main dotfiles repository (which may be public, like this one), but
+# you'll have access to them in your scripts.
+if [[ -a ~/.env.local ]]
+then
+  source ~/.env.local
+fi
+
+# Find all of the .zsh files in XDG_CONFIG_HOME
+typeset -U config_files
+xdg_config_files=($XDG_CONFIG_HOME/**/*.zsh)
+
+# Load the .zsh path files
+for file in ${(M)xdg_config_files:#*/path.zsh}
+do
+  source $file
+done
+
+# Load other .zsh files (excluding path and completion)
+for file in ${${xdg_config_files:#*/path.zsh}:#*/completion.zsh}
+do
+  source $file
+done
+
+# Initialize autocomplete here, otherwise functions won't be loaded
+autoload -U compinit
+compinit
+
+# Load the .zsh completions after autocomplete has been enabled
+for file in ${(M)xdg_config_files:#*/completion.zsh}
+do
+  source $file
+done
+
+unset xdg_config_files
+
+# Better history
+# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
