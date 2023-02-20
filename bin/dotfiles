@@ -1,0 +1,53 @@
+#!/bin/sh
+#
+# dotfiles
+#
+# `dotfiles` handles installation, updates, things like that. Run it periodically
+# to make sure you're on the latest and greatest.
+
+set -e
+
+dotfiles_help() {
+	echo "XDG Dotfiles manager"
+	echo ""
+	echo "Usage: dotfiles [options]"
+	echo ""
+	echo "Options:"
+	echo "  install, i       Installs any dependencies"
+	echo "  -e, --edit    Open dotfiles directory for editing"
+	echo "  -h, --help    Show this help message and exit"
+	exit
+}
+
+dotfiles_install() {
+	# Install homebrew first
+	$XDG_CONFIG_HOME/homebrew/install.sh 2>&1
+
+	# Find any custom installers and run them iteratively
+	find $XDG_CONFIG_HOME -path $XDG_CONFIG_HOME/homebrew -prune -false -o -name install.sh | while read installer ; do sh -c "${installer}" ; done
+
+	# Set macOS defaults
+	echo "==> setting MacOS defaults"
+	$XDG_CONFIG_HOME/macos/set-defaults.sh
+}
+
+while test $# -gt 0; do
+	case "$1" in
+		"-h"|"--help")
+			dotfiles_help
+			;;
+		"-e"|"--edit")
+			exec "$EDITOR" "$XDG_CONFIG_HOME"
+			exit
+			;;
+		"install"|"i")
+			dotfiles_install
+			;;
+		*)
+			echo "Invalid option: $1"
+			dotfiles_help
+			;;
+	esac
+	shift
+done
+

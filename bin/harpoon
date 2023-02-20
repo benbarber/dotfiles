@@ -1,0 +1,9 @@
+#!/bin/sh
+# 
+# Usage: harpoon
+# Description: Kills and removes all running containers without prejudice
+
+harpoon () {
+  docker kill $(docker ps -q)
+  docker rm $(docker ps -a -q)
+}
