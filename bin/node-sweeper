@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# node-sweeper
+#
+# Displays how much space is taken up by node_modules and provides
+# an action to perform a clean up and remove them all.
+
+set -e
+
+nodesweeper_help () {
+	echo "Node sweeper"
+	echo ""
+	echo "Usage: node-sweeper [options]"
+	echo ""
+	echo "Options:"
+  echo "  -s, --stats    Shows space taken up by node_modules"
+	echo "  -f, --force    Nukes all node_modules"
+	exit
+}
+
+while test $#; do
+	case "$1" in
+		"-s"|"--stats")
+			find . -name "node_modules" -type d -prune -print | xargs du -chs
+      exit
+			;;
+		"-f"|"--force")
+			find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
+      exit
+			;;
+		*)
+			echo "Invalid option: $1"
+			nodesweeper_help
+			;;
+	esac
+	shift
+done
