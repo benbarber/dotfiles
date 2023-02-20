@@ -7,13 +7,13 @@
 
 set -e
 
-dotfiles_help() {
+dotfiles_help () {
 	echo "XDG Dotfiles manager"
 	echo ""
 	echo "Usage: dotfiles [options]"
 	echo ""
 	echo "Options:"
-	echo "  install, i       Installs any dependencies"
+	echo "  install, i    Installs any dependencies"
 	echo "  -e, --edit    Open dotfiles directory for editing"
 	echo "  -h, --help    Show this help message and exit"
 	exit
