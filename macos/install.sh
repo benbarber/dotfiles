@@ -11,3 +11,7 @@ fi
 echo ''
 echo '==> Running MacOS software update'
 sudo softwareupdate -i -a
+
+# Set macOS defaults
+echo "==> setting MacOS defaults"
+$XDG_CONFIG_HOME/macos/set-defaults.sh

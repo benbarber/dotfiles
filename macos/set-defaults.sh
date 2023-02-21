@@ -37,8 +37,14 @@ defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool 
 defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 
+# Create the folder to store screenshots in
+SCREENSHOTS_DIR="${HOME}/Pictures/Screenshots"
+if [ ! -d "$SCREENSHOTS_DIR" ]; 
+then
+  mkdir "$SCREENSHOTS_DIR"
+fi
+
 # Save screenshots to the pictures folder
-mkdir "${HOME}/Pictures/Screenshots"
 defaults write com.apple.screencapture location -string "${HOME}/Pictures/Screenshots"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
