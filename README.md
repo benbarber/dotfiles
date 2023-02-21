@@ -17,6 +17,7 @@ You can then get setup on your machine by running the following;
 ```bash
 git clone https://github.com/benbarber/dotfiles.git ~/.config
 cd ~/.config
+./setup
 ```
 
 (change the GitHub URL to point to your own fork/repo if you if you chose to do that).
