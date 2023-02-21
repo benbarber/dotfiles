@@ -2,46 +2,152 @@
 #
 # dotfiles
 #
-# `dotfiles` handles installation, updates, things like that. Run it periodically
-# to make sure you're on the latest and greatest.
+# `dotfiles` handles installation and applying updates of your dotfiles. Run the update 
+# command periodically to make sure you're on the latest and greatest.
+#
 
 set -e
 
-dotfiles_help () {
-	echo "XDG Dotfiles manager"
+dotfiles_help() {
+	echo "  XDG Dotfiles manager"
 	echo ""
-	echo "Usage: dotfiles [options]"
+	echo "  Usage: dotfiles [options]"
 	echo ""
-	echo "Options:"
-	echo "  install, i    Installs any dependencies"
-	echo "  -e, --edit    Open dotfiles directory for editing"
-	echo "  -h, --help    Show this help message and exit"
+	echo "  Options:"
+	echo "     -u, update   Runs the installers and applys any changes"
+	echo "     -e, edit     Open dotfiles directory for editing"
+	echo "     -h, help     Show this help message and exit"
 	exit
 }
 
-dotfiles_install() {
-	# Install homebrew first
+info() {
+  printf "\r  [ \033[00;34m..\033[0m ] $1\n"
+}
+
+user() {
+  printf "\r  [ \033[0;33m??\033[0m ] $1\n"
+}
+
+success() {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+fail() {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ''
+  exit
+}
+
+link_file() {
+  local src=$1 dst=$2
+
+  local overwrite= backup= skip=
+  local action=
+
+  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
+  then
+
+    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+    then
+
+      local currentSrc="$(readlink $dst)"
+
+      if [ "$currentSrc" == "$src" ]
+      then
+
+        skip=true;
+
+      else
+
+        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
+        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+        read -n 1 action
+
+        case "$action" in
+          o )
+            overwrite=true;;
+          O )
+            overwrite_all=true;;
+          b )
+            backup=true;;
+          B )
+            backup_all=true;;
+          s )
+            skip=true;;
+          S )
+            skip_all=true;;
+          * )
+            ;;
+        esac
+
+      fi
+
+    fi
+
+    overwrite=${overwrite:-$overwrite_all}
+    backup=${backup:-$backup_all}
+    skip=${skip:-$skip_all}
+
+    if [ "$overwrite" == "true" ]
+    then
+      rm -rf "$dst"
+      success "> removed $dst"
+    fi
+
+    if [ "$backup" == "true" ]
+    then
+      mv "$dst" "${dst}.backup"
+      success "> moved $dst to ${dst}.backup"
+    fi
+
+    if [ "$skip" == "true" ]
+    then
+      success "> skipped $src"
+    fi
+  fi
+
+  if [ "$skip" != "true" ]  # "false" or empty
+  then
+    ln -s "$1" "$2"
+    success "> linked $1 to $2"
+  fi
+}
+
+setup_symlinks() {
+  echo ''
+  info '==> setting up symlinks'
+
+  local overwrite_all=false backup_all=false skip_all=false
+
+  for src in $(find -H "$XDG_CONFIG_HOME" -maxdepth 2 -name '*.sylk' -not -path '*.git*')
+  do
+    dst="$HOME/.$(basename "${src%.*}")"
+    link_file "$src" "$dst"
+  done
+}
+
+dotfiles_update() {
+	# Ensure all symlinks are setup and up to date
+	setup_symlinks
+
+	# Run the Homebrew installer
 	$XDG_CONFIG_HOME/homebrew/install.sh 2>&1
 
-	# Find any custom installers and run them iteratively
+	# Find and run any other custom installers iteratively
 	find $XDG_CONFIG_HOME -path $XDG_CONFIG_HOME/homebrew -prune -false -o -name install.sh | while read installer ; do sh -c "${installer}" ; done
-
-	# Set macOS defaults
-	echo "==> setting MacOS defaults"
-	$XDG_CONFIG_HOME/macos/set-defaults.sh
 }
 
 while test $# -gt 0; do
 	case "$1" in
-		"-h"|"--help")
+		"-h"|"help")
 			dotfiles_help
 			;;
-		"-e"|"--edit")
+		"-e"|"edit")
 			exec "$EDITOR" "$XDG_CONFIG_HOME"
 			exit
 			;;
-		"install"|"i")
-			dotfiles_install
+		"-u"|"update")
+			dotfiles_update
 			;;
 		*)
 			echo "Invalid option: $1"

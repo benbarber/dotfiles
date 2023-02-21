@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #
-# Dotfiles installer
+# Dotfiles setup script
+# Sets up the gitconfig and runs the dotfiles installer
+#
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -51,109 +53,16 @@ setup_gitconfig () {
   fi
 }
 
-link_file () {
-  local src=$1 dst=$2
+install_dotfiles() {
+  info '==> Running dotfiles installer...'
 
-  local overwrite= backup= skip=
-  local action=
-
-  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
+  if source $XDG_CONFIG_HOME/bin/dotfiles | exec dotfiles update | while read -r data; do info "$data"; done
   then
-
-    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
-    then
-
-      local currentSrc="$(readlink $dst)"
-
-      if [ "$currentSrc" == "$src" ]
-      then
-
-        skip=true;
-
-      else
-
-        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
-        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action
-
-        case "$action" in
-          o )
-            overwrite=true;;
-          O )
-            overwrite_all=true;;
-          b )
-            backup=true;;
-          B )
-            backup_all=true;;
-          s )
-            skip=true;;
-          S )
-            skip_all=true;;
-          * )
-            ;;
-        esac
-
-      fi
-
-    fi
-
-    overwrite=${overwrite:-$overwrite_all}
-    backup=${backup:-$backup_all}
-    skip=${skip:-$skip_all}
-
-    if [ "$overwrite" == "true" ]
-    then
-      rm -rf "$dst"
-      success "> removed $dst"
-    fi
-
-    if [ "$backup" == "true" ]
-    then
-      mv "$dst" "${dst}.backup"
-      success "> moved $dst to ${dst}.backup"
-    fi
-
-    if [ "$skip" == "true" ]
-    then
-      success "> skipped $src"
-    fi
-  fi
-
-  if [ "$skip" != "true" ]  # "false" or empty
-  then
-    ln -s "$1" "$2"
-    success "> linked $1 to $2"
+    success 'XDG dotfiles installed'
+  else
+    fail 'Error installing XDG dotfiles'
   fi
 }
 
-symlink_dotfiles () {
-  echo ''
-  info '==> setting up symlinks'
-
-  local overwrite_all=false backup_all=false skip_all=false
-
-  for src in $(find -H "$XDG_CONFIG_HOME" -maxdepth 2 -name '*.sylk' -not -path '*.git*')
-  do
-    dst="$HOME/.$(basename "${src%.*}")"
-    link_file "$src" "$dst"
-  done
-}
-
-install_dependencies () {
-  # If we're on a Mac, let's install our dependencies
-  if [ "$(uname -s)" == "Darwin" ]
-  then
-    if source $XDG_CONFIG_HOME/bin/dotfiles | exec dotfiles install | while read -r data; do info "$data"; done
-    then
-      success 'dependencies installed'
-    else
-      fail 'error installing dependencies'
-    fi
-  fi
-}
-
-info '==> Running dotfiles installer...'
 setup_gitconfig
-symlink_dotfiles
-install_dependencies
-success '==> All installed!'
+install_dotfiles

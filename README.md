@@ -33,7 +33,7 @@ directory and then install anything you have configured in the `Brewfile`.
 Everything is then configured within `~/.config`, and after you make any changes you can run the following to apply them:
 
 ```
-dotfiles install
+dotfiles update
 ```
 
 This will install any new dependencines and apply any changes you have made. You can also run `dotfiles --help` to get
